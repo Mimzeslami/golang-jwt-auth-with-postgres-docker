@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  application:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    restart: always
+    ports:
+      - "8081:8081"
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      DSN: "host=postgres port=5432 user=admin password=secret dbname=demo sslmode=disable timezone=UTC connect_timeout=5"
+
+  postgres:
+    image: 'postgres:14.0'
+    ports:
+      - "5432:5432"
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: demo
+    volumes:
+      - ./database-data/postgres/:/var/lib/postgresql/data/
+
+      
