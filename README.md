@@ -20,3 +20,8 @@ go mod download
 ```
 make up_build
 ```
+
+### Stop
+```
+make down
+```
